@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>videoCdotin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #countdown, #resultContainer, #languageSelect { display: none; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+        }
+        button:hover { background-color: #0056b3; }
+        .language-options {
+            margin-bottom: 20px;
+        }
+        #prankText {
+            color: purple;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        #prankImage {
+            display: none; /* إخفاء الصورة افتراضيًا */
+            width: 100%; 
+            border-radius: 10px;
+        }
+        .social-links {
+            margin-top: 20px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+        }
+        .plans {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .plan {
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #fff;
+        }
+        .ads {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .ad-image {
+            width: 100%; 
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="language-options">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="ar">العربية</option>
+                <option value="en">English</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+
+        <button id="startButton" onclick="startCountdown()">شاهد الفيديو</button>
+        <div id="countdown"></div>
+        <div id="resultContainer">
+            <img id="prankImage" src="https://www.dropbox.com/scl/fi/8rm16sozwftv8ltjx2iil/images-9.jpeg?rlkey=c09fapahivlolmr872x5bsjqe&raw=1" alt="صورة" />
+            <div id="prankText">كسمك</div>
+        </div>
+
+        <!-- تشغيل الصوت بتكرار -->
+        <audio id="prankAudio" loop>
+            <source src="https://dl.dropboxusercontent.com/scl/fi/4ndeo0s6e4j6b5v8oxk6k/the-cat-laughs-_senselessly-_cat-_laugh-_memes-MP3_160K.mp3?rlkey=qxkpgqmosrkwjzx865wsygq5d&st=63h3k7tj" type="audio/mpeg">
+        </audio>
+
+        <!-- قسم الإعلانات -->
+        <div class="ads">
+            <h2>إعلانات</h2>
+            <img class="ad-image" src="https://www.dropbox.com/scl/fi/vzzxfs9yx0tapdnrhc8mk/images-11.jpeg?rlkey=0tz5iebfzuq5s3r62lcy4463b&st=tzg6eczc&raw=1" alt="إعلان 1" />
+            <img class="ad-image" src="https://www.dropbox.com/scl/fi/rhhyqopddj9yeuycxdpm4/images-13.jpeg?rlkey=ohndfrbdyd0jjdmu6rbzul5uc&st=coj9notj&raw=1" alt="إعلان 2" />
+        </div>
+
+        <!-- قسم الخطط والاشتراكات -->
+        <div class="plans">
+            <h2>خطط الاشتراك</h2>
+            <div class="plan">
+                <h3>الخطة الأساسية</h3>
+                <p>سعر: 10$ شهريًا</p>
+                <p>الوصول إلى محتوى حصري وألعاب ممتعة.</p>
+                <button>اشترك الآن</button>
+            </div>
+            <div class="plan">
+                <h3>الخطة المميزة</h3>
+                <p>سعر: 20$ شهريًا</p>
+                <p>جميع ميزات الخطة الأساسية بالإضافة إلى محتوى إضافي وخصومات على المنتجات.</p>
+                <button>اشترك الآن</button>
+            </div>
+            <div class="plan">
+                <h3>الخطة العائلية</h3>
+                <p>سعر: 30$ شهريًا</p>
+                <p>تشمل الخطة 4 حسابات عائلية مع كل الميزات.</p>
+                <button>اشترك الآن</button>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="#">فيسبوك</a> | 
+            <a href="#">تويتر</a> | 
+            <a href="#">إنستغرام</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2024 videoCdotin. جميع الحقوق محفوظة.</p>
+        <p><a href="#">من نحن</a> | <a href="#">اتصل بنا</a> | <a href="#">سياسة الخصوصية</a></p>
+    </div>
+
+    <script>
+        // النصوص المتعددة اللغات
+        const textContent = {
+            ar: {
+                mainTitle: "مرحبًا بكم في مركز المرح الترفيهي",
+                waitMessage: "انتظر {time} ثانية",
+                viewContent: "عرض المحتوى",
+                alertMessage: "كسمك"
+            },
+            en: {
+                mainTitle: "Welcome to Fun Center",
+                waitMessage: "Wait {time} seconds",
+                viewContent: "View Content",
+                alertMessage: "Gotcha!"
+            },
+            fr: {
+                mainTitle: "Bienvenue au Centre de Divertissement",
+                waitMessage: "Attendez {time} secondes",
+                viewContent: "Voir le contenu",
+                alertMessage: "Surprise!"
+            }
+        };
+        let currentLanguage = 'ar';
+
+        // تغيير اللغة
+        function changeLanguage() {
+            currentLanguage = document.getElementById('languageSelect').value;
+        }
+
+        // بدء العد التنازلي
+        function startCountdown() {
+            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('countdown').style.display = 'block';
+
+            let countdownTime = 5;  // وقت العد التنازلي
+            let countdownInterval = setInterval(() => {
+                document.getElementById('countdown').textContent = textContent[currentLanguage].waitMessage.replace("{time}", countdownTime--);
+                if (countdownTime < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').style.display = 'none';
+                    document.getElementById('resultContainer').style.display = 'block';
+                    document.getElementById('prankImage').style.display = 'block'; // عرض الصورة
+                    document.getElementById('prankAudio').currentTime = 0; // إعادة تشغيل الصوت من البداية
+                    document.getElementById('prankAudio').play();  // تشغيل الصوت بعد ظهور الصورة
+                }
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>
